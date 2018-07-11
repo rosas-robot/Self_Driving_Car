@@ -12,7 +12,6 @@ def move_forward(th, dt, v, om,):
     dx = v*dt*np.cos(th + om*dt/2)
     dy = v*dt*np.sin(th + om*dt/2)
     dth = dt*om
-
     return np.array([dx, dy, dth])
 
 
