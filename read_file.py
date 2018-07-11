@@ -15,6 +15,10 @@ file_path = path.dirname(path.realpath(__file__))
 data_path = file_path + '/dataset_refined' + '/robot1_Odo.txt'
 odo_array = np.loadtxt(data_path, dtype=float)
 
+# Read measurement data
+measurement_path = file_path + '/dataset_refined' + '/robot1_Measurement.txt'
+measurement_array = np.loadtxt(measurement_path, dtype=float)
+
 # Noise parameters of motion Model and Measurement Model
 # Parameters of motion model
 alphas = [0.1, 0.01, 0.18, 0.08, 0.0, 0.0]
@@ -50,7 +54,10 @@ mu_old = fx.T.dot(mu_old.T)
 start_idx = 600
 vel = odo_array[start_idx, 1]
 ang_vel = odo_array[start_idx, 2]
+mIdx = 0
 for i in range(start_idx, 800): # odo_array.shape[0]):
+    # current time instance
+    t =
     # Calculate mu_bar
     theta = mu_old[2, 0]
     diffMotion = move_forward(theta, dt, vel, ang_vel)
@@ -78,6 +85,12 @@ for i in range(start_idx, 800): # odo_array.shape[0]):
     # Update state covariance
     R_t = V_t.dot(M_t.dot(V_t.T))
     stateCovBar = (G_t.dot(stateCov.dot(G_t.T)) + fx.T.dot(R_t.dot(fx)))
+
+    # Add features which are newly visible
+    z = np.zeros((3, 1))
+    while (measurement_array[mIdx, 0] - t < 0.005) and (mIdx < measurement_array.shape[0]):
+        landMarkCode = measurement_array[mIdx, 1]
+        landmarkId = 0
 
     # Update mu_old
     mu_old = mu_new
