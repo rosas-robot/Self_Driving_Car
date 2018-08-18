@@ -137,14 +137,14 @@ for i in range(start_idx, ground_truth_array.shape[0]):  # odo_array.shape[0]):
                 if int(z[2, 0]) == 0:
                     z = np.array([[rangeVal], [bearingVal], [landmarkId - 5]])
                 else:
-                    newZ = z = np.array([[rangeVal], [bearingVal], [landmarkId - 5]])
+                    newZ = np.array([[rangeVal], [bearingVal], [landmarkId - 5]])
                     z = np.hstack((z, newZ))
         mIdx += 1
 
     # if features are observed
     # loop over all features and compute Kalman gain
-    if z[2, 0] > 1:    # do no know why Z[2, 0] > 1, in my sense it has to be 0
-        S = np.zeros((np.shape(z)[1], 3, 3))
+    if z[2, 0] > 0:    # do no know why Z[2, 0] > 1, in my sense it has to be 0
+        # S = np.zeros((np.shape(z)[1], 3, 3))
         zHat = np.zeros((3, z.shape[1]))
 
         for k in range(z.shape[1]):
