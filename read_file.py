@@ -152,7 +152,7 @@ for i in range(start_idx, ground_truth_array.shape[0]):  # odo_array.shape[0]):
 
             # if the landmark has never been seen before
             # add it to the state vector
-            if stateMeanBar[2 + j, 0] == 0.0:
+            if stateMeanBar[3*j, 0] == 0.0:
                 landmark_pos = np.array([[z[0, k] * np.cos(z[1, k] + stateMeanBar[2, 0])],
                                          [z[0, k] * np.sin(z[1, k] + stateMeanBar[2, 0])],
                                          [0]])
@@ -196,9 +196,6 @@ for i in range(start_idx, ground_truth_array.shape[0]):  # odo_array.shape[0]):
     stateMean = stateMeanBar
     stateCov = stateCovBar
     robotEstPose[i, :] = [t, stateMean[0, 0], stateMean[1, 0], stateMean[2, 0]]
-
-    if i == 605:
-        print('\nIteration: {}\n'.format(i))
 
 print(stateMean[0:3, 0])
 print(robotEstPose[robotEstPose.shape[0]-1, :])
