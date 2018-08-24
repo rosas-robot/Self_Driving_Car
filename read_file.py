@@ -169,6 +169,7 @@ for i in range(start_idx, ground_truth_array.shape[0]):  # odo_array.shape[0]):
 
             # predicted bearing to landmark
             predBear = conBear(math.atan2(delta[1, 0], delta[0, 0]) - stateMeanBar[2, 0])
+            # predBear = math.atan2(delta[1, 0], delta[0, 0]) - stateMeanBar[2, 0]
 
             zHat[:, k] = np.array([[r], [predBear], [j]]).reshape((3, ))
 
